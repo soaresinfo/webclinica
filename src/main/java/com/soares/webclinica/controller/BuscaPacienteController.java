@@ -22,14 +22,13 @@ public class BuscaPacienteController {
 
 	private final UUIDValidator uuidValidator = new UUIDValidator("id_paciente");
 
-	@Autowired
-	private BuscaPacienteService service;
+	private final BuscaPacienteService service;
 
 	@GetMapping(path = "/paciente", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<PacienteResponseModel> buscaPacientePorId(@RequestParam("id_paciente") String uuid) {
 
 		uuidValidator.validate(uuid).isInvalidThrow(BadRequestException.class);
 		Paciente paciente = service.buscaPacientePorId(UUID.fromString(uuid));
-		return ResponseEntity.ok(PacienteMapper.INSTANCE.mapFrom(paciente));
+		return ResponseEntity.ok(PacienteMapper.INSTANCE.mapFrom((Paciente)null));
 	}
 }

@@ -3,7 +3,13 @@ package com.soares.webclinica.infrastructure.database;
 import lombok.RequiredArgsConstructor;
 import org.hibernate.cfg.AvailableSettings;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.autoconfigure.domain.EntityScan;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.jpa.JpaTransactionManager;
@@ -14,12 +20,12 @@ import org.springframework.transaction.PlatformTransactionManager;
 import java.util.HashMap;
 
 @RequiredArgsConstructor
-/*
 @Configuration
 @EnableJpaRepositories(basePackages = "com.soares.webclinica.repository",
                         entityManagerFactoryRef = "entityManager",
                         transactionManagerRef = "transactionManager")
-@EntityScan("com.soares.webclinica.repository.model")*/
+@EntityScan("com.soares.webclinica.repository.model")
+@EnableAutoConfiguration(exclude = DataSourceAutoConfiguration.class)
 public class DataBaseConfiguration {
 
     @Value("${spring.datasource.url}")
@@ -28,32 +34,35 @@ public class DataBaseConfiguration {
     @Value("${spring.datasource.username}")
     private String jdbcUsername;
 
-    @Value("${spring.datasource.password}")
+    @Value("${spring.datasource.password:default}")
     private String jdbcPassword;
 
     @Value("${spring.datasource.driverClassName}")
     private String jdbcDriverClassName;
 
+    @Value("${spring.datasource.schema}")
+    private String schema;
+
     private final Environment env;
 
-    //@Bean
+    @Bean
     public DriverManagerDataSource dataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
         dataSource.setDriverClassName(jdbcDriverClassName);
         dataSource.setUrl(jdbcUrl);
         dataSource.setUsername(jdbcUsername);
         dataSource.setPassword(jdbcPassword);
+        dataSource.setSchema(schema);
         return dataSource;
     }
 
-    //@Bean
+    @Bean
     public JdbcTemplate jdbcTemplate(){
         return new JdbcTemplate(dataSource());
     }
 
-    //@Bean
+    @Bean
     public LocalContainerEntityManagerFactoryBean entityManager(){
-        System.out.println("Iniciando entityManager...");
         LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
         em.setDataSource(dataSource());
 
@@ -69,11 +78,10 @@ public class DataBaseConfiguration {
 
         em.setJpaPropertyMap(properties);
         em.afterPropertiesSet();
-        System.out.println("Iniciado entityManager.");
         return em;
     }
 
-    //@Bean
+    @Bean
     public PlatformTransactionManager transactionManager(){
         JpaTransactionManager transactionManager = new JpaTransactionManager();
         transactionManager.setEntityManagerFactory(entityManager().getObject());

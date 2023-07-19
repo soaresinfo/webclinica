@@ -3,6 +3,7 @@ package com.soares.webclinica.repository.model;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -15,7 +16,8 @@ import java.io.Serializable;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity(name = "tipo_contato")
+@Entity
+@Table(name = "tipo_contato")
 public class TipoContatoEntity implements Serializable {
 
     @Serial

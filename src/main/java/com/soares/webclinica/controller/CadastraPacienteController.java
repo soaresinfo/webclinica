@@ -19,12 +19,12 @@ public class CadastraPacienteController {
 
     private final PacienteRequestValidator validator = new PacienteRequestValidator();
 
-    private final CadastraPacienteService service;
+    //private final CadastraPacienteService service;
 
     @PostMapping
     public ResponseEntity<PacienteResponseModel> cadastraPaciente(@RequestBody PacienteRequestModel request){
         validator.validate(request).isInvalidThrow(BadRequestException.class);
-        Paciente response = service.cadastraPaciente(PacienteMapper.INSTANCE.fromRequestToModel(request));
-        return ResponseEntity.accepted().body(PacienteMapper.INSTANCE.mapFrom(response));
+        //Paciente response = service.cadastraPaciente(PacienteMapper.INSTANCE.fromRequestToModel(request));
+        return ResponseEntity.accepted().body(PacienteMapper.INSTANCE.mapFrom((Paciente) null));
     }
 }
