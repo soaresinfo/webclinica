@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<configuration>
+    <springProperty scope="context" name="LOG_DIR" source="logging.root.dir" />
+    <springProperty scope="context" name="APP" source="spring.application.name" />
+
+    <property name="CONSOLE_LOG_PATTERN" value="%d{HH:mm:ss.SSS} | %-5level | %logger{36} %msg%n" />
+
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>${CONSOLE_LOG_PATTERN}</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="FILE_APPENDER" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_DIR:-env/}logs/webclinica.log</file>
+        <append>true</append>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_DIR:-env/}logs/webclinica.%d{yyyy-MM-dd}.log</fileNamePattern>
+        </rollingPolicy>
+        <encoder>
+            <pattern>${CONSOLE_LOG_PATTERN}</pattern>
+        </encoder>
+    </appender>
+
+    <logger name="com.soares.webclinica" level="INFO" additivity="false">
+        <appender-ref ref="FILE_APPENDER" />
+    </logger>
+
+    <root level="info">
+        <appender-ref ref="FILE_APPENDER" />
+        <appender-ref ref="STDOUT" />
+    </root>
+</configuration>

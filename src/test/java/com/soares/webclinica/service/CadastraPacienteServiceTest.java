@@ -1,9 +1,9 @@
 package com.soares.webclinica.service;
 
-import com.soares.webclinica.controller.exception.BadRequestException;
 import com.soares.webclinica.mapper.PacienteMapper;
 import com.soares.webclinica.repository.PacienteRepository;
 import com.soares.webclinica.repository.model.PacienteEntity;
+import com.soares.webclinica.service.exception.UnprocessableEntityException;
 import com.soares.webclinica.service.model.Paciente;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -59,7 +59,7 @@ public class CadastraPacienteServiceTest {
 
         when(repository.findByCpf(eq(model.cpf()))).thenReturn(Optional.of(entity));
 
-        Exception exception = Assertions.assertThrows(BadRequestException.class,
+        Assertions.assertThrows(UnprocessableEntityException.class,
                 () -> service.cadastraPaciente(model));
 
         verify(repository, times(1)).findByCpf(anyString());

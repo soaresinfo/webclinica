@@ -7,7 +7,6 @@ import com.soares.webclinica.mapper.PacienteMapper;
 import com.soares.webclinica.service.BuscaPacienteService;
 import com.soares.webclinica.service.model.Paciente;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,6 +28,12 @@ public class BuscaPacienteController {
 
 		uuidValidator.validate(uuid).isInvalidThrow(BadRequestException.class);
 		Paciente paciente = service.buscaPacientePorId(UUID.fromString(uuid));
-		return ResponseEntity.ok(PacienteMapper.INSTANCE.mapFrom((Paciente)null));
+		return ResponseEntity.ok(PacienteMapper.INSTANCE.mapFrom(paciente));
+	}
+
+	@GetMapping(path = "/paciente/cpf")
+	public ResponseEntity<PacienteResponseModel> buscaPacientePorCpf(@RequestParam("cpf") String cpf) {
+		Paciente paciente = service.buscaPacientePorCpf(cpf);
+		return ResponseEntity.ok(PacienteMapper.INSTANCE.mapFrom(paciente));
 	}
 }

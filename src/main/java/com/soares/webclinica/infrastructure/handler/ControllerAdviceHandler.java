@@ -12,11 +12,13 @@ public class ControllerAdviceHandler {
 
     @ExceptionHandler
     ResponseEntity<Object> handleException(final Exception ex, final WebRequest request){
+        ex.printStackTrace();
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(ex.getMessage());
     }
 
     @ExceptionHandler
     ResponseEntity<Object> handleException(final NotFoundException nfe, final WebRequest request){
+        nfe.printStackTrace();
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(nfe.getValidationResult());
     }
 }

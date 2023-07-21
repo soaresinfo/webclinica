@@ -22,10 +22,19 @@ public class BuscaPacienteService {
 
     public Paciente buscaPacientePorId(UUID idPaciente) {
         Optional<PacienteEntity> optional = repository.findById(idPaciente);
-        optional.orElseThrow(() -> {
-            ValidationResult result = ValidationResult.fail(List.of(Error.create("id_paciente", "Erro", "422", idPaciente)));
+        PacienteEntity entity = optional.orElseThrow(() -> {
+            ValidationResult result = ValidationResult.fail(List.of(Error.create("id_paciente", "Paciente não encontrado", "422", idPaciente)));
             throw new NotFoundException(result);
         });
-        return PacienteMapper.INSTANCE.mapFrom(optional.get());
+        return PacienteMapper.INSTANCE.mapFrom(entity);
+    }
+
+    public Paciente buscaPacientePorCpf(String cpf) {
+        Optional<PacienteEntity> optional = repository.findByCpf(cpf);
+        PacienteEntity entity = optional.orElseThrow(() -> {
+            ValidationResult result = ValidationResult.fail(List.of(Error.create("cpf", "Paciente não encontrado", "422", cpf)));
+            throw new NotFoundException(result);
+        });
+        return PacienteMapper.INSTANCE.mapFrom(entity);
     }
 }
