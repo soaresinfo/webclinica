@@ -10,4 +10,6 @@ import java.util.UUID;
 public interface MedicoRepository extends JpaRepository<MedicoEntity, UUID> {
 
     Optional<MedicoEntity> findByCrm(String crm);
+
+    Optional<MedicoEntity> finByNomeMedico(String nomeMedico);
 }

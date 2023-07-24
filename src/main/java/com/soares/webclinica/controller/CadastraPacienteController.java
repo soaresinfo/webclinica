@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class CadastraPacienteController {
 
-    private final PacienteRequestValidator validator = new PacienteRequestValidator();
+    private final PacienteRequestValidator validator;
 
     private final CadastraPacienteService service;
 
