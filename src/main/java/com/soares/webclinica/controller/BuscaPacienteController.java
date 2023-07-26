@@ -36,4 +36,10 @@ public class BuscaPacienteController {
 		Paciente paciente = service.buscaPacientePorCpf(cpf);
 		return ResponseEntity.ok(PacienteMapper.INSTANCE.mapFrom(paciente));
 	}
+
+	@GetMapping(path = "/paciente/nome_paciente")
+	public ResponseEntity<PacienteResponseModel> buscaPacientePorNome(@RequestParam("nome_paciente") String nomePaciente) {
+		Paciente paciente = service.buscaPacientePorNome(nomePaciente);
+		return ResponseEntity.ok(PacienteMapper.INSTANCE.mapFrom(paciente));
+	}
 }

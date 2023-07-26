@@ -2,6 +2,7 @@ package com.soares.webclinica.service;
 
 import br.com.fluentvalidator.context.Error;
 import br.com.fluentvalidator.context.ValidationResult;
+import com.soares.webclinica.controller.model.PacienteRequestModel;
 import com.soares.webclinica.mapper.PacienteMapper;
 import com.soares.webclinica.repository.PacienteRepository;
 import com.soares.webclinica.repository.model.PacienteEntity;
@@ -32,7 +33,16 @@ public class BuscaPacienteService {
     public Paciente buscaPacientePorCpf(String cpf) {
         Optional<PacienteEntity> optional = repository.findByCpf(cpf);
         PacienteEntity entity = optional.orElseThrow(() -> {
-            ValidationResult result = ValidationResult.fail(List.of(Error.create("cpf", "Paciente não encontrado", "422", cpf)));
+            ValidationResult result = ValidationResult.fail(List.of(Error.create(PacienteRequestModel.CPF, "Paciente não encontrado", "422", cpf)));
+            throw new NotFoundException(result);
+        });
+        return PacienteMapper.INSTANCE.mapFrom(entity);
+    }
+
+    public Paciente buscaPacientePorNome(String nomePaciente) {
+        Optional<PacienteEntity> optional = repository.findByNomePaciente(nomePaciente);
+        PacienteEntity entity = optional.orElseThrow(() -> {
+            ValidationResult result = ValidationResult.fail(List.of(Error.create(PacienteRequestModel.NOME_PACIENTE, "Paciente não encontrado", "422", nomePaciente)));
             throw new NotFoundException(result);
         });
         return PacienteMapper.INSTANCE.mapFrom(entity);

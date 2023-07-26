@@ -9,6 +9,7 @@ import com.soares.webclinica.service.model.Contato;
 import com.soares.webclinica.service.model.Paciente;
 import com.soares.webclinica.service.model.Responsavel;
 import com.soares.webclinica.service.model.TipoContato;
+import com.soares.webclinica.util.FakerFactory;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -17,7 +18,6 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDate;
-import java.util.Locale;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -34,7 +34,7 @@ public class CadastraContatoServiceTest {
     @Mock
     private ContatoRepository repository;
 
-    private static final Faker FAKER = Faker.instance(new Locale("pt-BR"));
+    private static final Faker FAKER = FakerFactory.getInstance();
 
     @Test
     void testCadastraContatoSucesso(){

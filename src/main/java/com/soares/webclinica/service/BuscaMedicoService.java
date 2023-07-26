@@ -22,11 +22,16 @@ public class BuscaMedicoService {
 
 
     public Medico buscaPorNome(String nomeMedico) {
-        Optional<MedicoEntity> optional = repository.finByNomeMedico(nomeMedico);
+        Optional<MedicoEntity> optional = repository.findByNomeMedico(nomeMedico);
         MedicoEntity entity = optional.orElseThrow(() -> {
             ValidationResult result = ValidationResult.fail(List.of(Error.create(MedicoRequestModel.NOME_MEDICO, "Médico não encontrado", "422", nomeMedico)));
             throw new NotFoundException(result);
         });
         return MedicoMapper.INSTANCE.fromEntityToModel(entity);
+    }
+
+    public List<Medico> buscaTodos() {
+        List<MedicoEntity> entityList = repository.findAll();
+        return MedicoMapper.INSTANCE.fromListEntityToListModel(entityList);
     }
 }

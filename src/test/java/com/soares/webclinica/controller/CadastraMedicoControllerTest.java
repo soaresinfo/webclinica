@@ -6,8 +6,10 @@ import com.soares.webclinica.controller.exception.BadRequestException;
 import com.soares.webclinica.controller.model.MedicoRequestModel;
 import com.soares.webclinica.controller.model.MedicoResponseModel;
 import com.soares.webclinica.controller.validator.MedicoRequestValidator;
+import com.soares.webclinica.factory.MedicoFactory;
 import com.soares.webclinica.service.CadastraMedicoService;
 import com.soares.webclinica.service.model.Medico;
+import com.soares.webclinica.util.FakerFactory;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -18,7 +20,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-import java.util.Locale;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -37,14 +38,11 @@ public class CadastraMedicoControllerTest {
     @Spy
     private MedicoRequestValidator validator;
 
-    private static final Faker FAKER = Faker.instance(new Locale("pt-BR"));
+    private static final Faker FAKER = FakerFactory.getInstance();
 
     @Test
     void testCadastraMedicoComSucessoRetornaStatus202Accepted(){
-        MedicoRequestModel requestModel = MedicoRequestModel.builder()
-                .nomeMedico(FAKER.name().fullName())
-                .crm(FAKER.numerify("#####"))
-                .build();
+        MedicoRequestModel requestModel = MedicoFactory.getRequestModel();
         Medico model = new Medico(UUID.randomUUID(), requestModel.getNomeMedico(), requestModel.getCrm());
 
         when(service.cadastraMedico(any(Medico.class))).thenReturn(model);
@@ -65,9 +63,8 @@ public class CadastraMedicoControllerTest {
 
     @Test
     void testCadastraMedicoSemCrmRetornaBadRequest(){
-        MedicoRequestModel requestModel = MedicoRequestModel.builder()
-                .nomeMedico(FAKER.name().fullName())
-                .build();
+        MedicoRequestModel requestModel = MedicoFactory.getRequestModel();
+        requestModel.setCrm(null);
 
         BadRequestException bre = Assertions.assertThrows(BadRequestException.class,
                 () -> controller.cadastraMedico(requestModel));

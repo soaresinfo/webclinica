@@ -7,6 +7,8 @@ import com.soares.webclinica.service.model.Medico;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
+import java.util.List;
+
 @Mapper
 public interface MedicoMapper {
 
@@ -19,4 +21,6 @@ public interface MedicoMapper {
     Medico fromRequestToModel(MedicoRequestModel source);
 
     MedicoResponseModel fromModelToResponse(Medico medico);
+
+    List<Medico> fromListEntityToListModel(List<MedicoEntity> entityList);
 }

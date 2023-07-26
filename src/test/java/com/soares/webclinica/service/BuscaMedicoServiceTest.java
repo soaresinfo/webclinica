@@ -7,15 +7,14 @@ import com.soares.webclinica.repository.MedicoRepository;
 import com.soares.webclinica.repository.model.MedicoEntity;
 import com.soares.webclinica.service.exception.NotFoundException;
 import com.soares.webclinica.service.model.Medico;
+import com.soares.webclinica.util.FakerFactory;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.Locale;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -31,7 +30,7 @@ public class BuscaMedicoServiceTest {
     @Mock
     private MedicoRepository repository;
 
-    private static final Faker FAKER = Faker.instance(new Locale("pt-BR"));
+    private static final Faker FAKER = FakerFactory.getInstance();
 
     @Test
     void testBuscaMedicoPorNomeSucesso(){
@@ -42,11 +41,11 @@ public class BuscaMedicoServiceTest {
                 .crm(FAKER.numerify("#####"))
                 .build();
 
-        when(repository.finByNomeMedico(eq(nomeMedico))).thenReturn(Optional.of(medico));
+        when(repository.findByNomeMedico(eq(nomeMedico))).thenReturn(Optional.of(medico));
 
         Medico response = service.buscaPorNome(nomeMedico);
 
-        verify(repository, times(1)).finByNomeMedico(eq(nomeMedico));
+        verify(repository, times(1)).findByNomeMedico(eq(nomeMedico));
 
         assertThat(response).isNotNull()
                 .hasNoNullFieldsOrProperties()
@@ -58,12 +57,12 @@ public class BuscaMedicoServiceTest {
     void testBuscaMedicoPorNomeDisparaExcecaoNotFound(){
         String nomeMedico = FAKER.name().fullName();
 
-        when(repository.finByNomeMedico(eq(nomeMedico))).thenReturn(Optional.empty());
+        when(repository.findByNomeMedico(eq(nomeMedico))).thenReturn(Optional.empty());
 
         NotFoundException nfe = assertThrows(NotFoundException.class,
                 () -> service.buscaPorNome(nomeMedico));
 
-        verify(repository, times(1)).finByNomeMedico(eq(nomeMedico));
+        verify(repository, times(1)).findByNomeMedico(eq(nomeMedico));
 
         assertThat(nfe.getValidationResult()).isNotNull();
         assertThat(nfe.getValidationResult().getErrors()).isNotEmpty();
@@ -77,9 +76,38 @@ public class BuscaMedicoServiceTest {
     void testBuscaMedicoPorNomeDisparaExcecaoRuntime(){
         String nomeMedico = FAKER.name().fullName();
 
-        when(repository.finByNomeMedico(eq(nomeMedico))).thenThrow(RuntimeException.class);
+        when(repository.findByNomeMedico(eq(nomeMedico))).thenThrow(RuntimeException.class);
 
         assertThrows(RuntimeException.class,
                 () -> service.buscaPorNome(nomeMedico));
+    }
+
+    @Test
+    void testBuscaTodosMedicosRetornaLista(){
+        when(repository.findAll()).thenReturn(Arrays.asList(getMedicoEntity(), getMedicoEntity()));
+
+        List<Medico> listResponse = service.buscaTodos();
+
+        assertThat(listResponse).isNotNull()
+                .isNotEmpty()
+                .hasSize(2);
+    }
+
+    @Test
+    void testBuscaTodosMedicosRetornaListaVazia(){
+
+        when(repository.findAll()).thenReturn(new ArrayList<>());
+
+        List<Medico> listResponse = service.buscaTodos();
+
+        assertThat(listResponse).isNotNull().isEmpty();
+    }
+
+    private static MedicoEntity getMedicoEntity() {
+        return MedicoEntity.builder()
+                .idMedico(UUID.randomUUID())
+                .nomeMedico(FAKER.name().fullName())
+                .crm(FAKER.numerify("#####"))
+                .build();
     }
 }
