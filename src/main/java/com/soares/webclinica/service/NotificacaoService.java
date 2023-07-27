@@ -15,11 +15,10 @@ public class NotificacaoService {
 
     private final ContatoRepository repository;
 
-    public boolean enviaNotificacao(Paciente paciente) {
+    public void enviaNotificacao(Paciente paciente) {
         List<ContatoEntity> list = repository.findByPaciente(PacienteMapper.INSTANCE.fromModelToEntity(paciente));
 
-        list.stream().forEach(contatoEntity -> notifica(contatoEntity));
-        return true;
+        list.forEach(this::notifica);
     }
 
     private void notifica(ContatoEntity contatoEntity) {

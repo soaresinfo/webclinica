@@ -9,7 +9,7 @@ import org.mapstruct.factory.Mappers;
 @Mapper
 public interface ResponsavelMapper {
 
-    static final ResponsavelMapper INSTANCE = Mappers.getMapper(ResponsavelMapper.class);
+    ResponsavelMapper INSTANCE = Mappers.getMapper(ResponsavelMapper.class);
 
     Responsavel fromRequestToModel(ResponsavelRequestModel source);
 

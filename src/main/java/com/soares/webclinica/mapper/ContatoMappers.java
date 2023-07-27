@@ -8,7 +8,7 @@ import org.mapstruct.factory.Mappers;
 @Mapper
 public interface ContatoMappers {
 
-    static final ContatoMappers INSTANCE = Mappers.getMapper(ContatoMappers.class);
+    ContatoMappers INSTANCE = Mappers.getMapper(ContatoMappers.class);
 
     ContatoEntity fromModelToEntity(Contato source);
 

@@ -13,15 +13,15 @@ import java.util.UUID;
 @Mapper
 public interface CommonsMapper {
 
-    static final CommonsMapper INSTANCE = Mappers.getMapper(CommonsMapper.class);
+    CommonsMapper INSTANCE = Mappers.getMapper(CommonsMapper.class);
 
-    static final String DATE_FORMAT = "uuuu-MM-dd";
+    String DATE_FORMAT = "uuuu-MM-dd";
 
-    static final String DATETIME_FORMAT = "uuuu-MM-dd HH:mm:ss";
+    String DATETIME_FORMAT = "uuuu-MM-dd HH:mm:ss";
 
-    public static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern(DATETIME_FORMAT);
+    DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern(DATETIME_FORMAT);
 
-    public static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern(DATE_FORMAT);
+    DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern(DATE_FORMAT);
 
     default UUID stringToUUID(final String value){
         return StringUtils.isNotBlank(value) ? UUID.fromString(value) : null;

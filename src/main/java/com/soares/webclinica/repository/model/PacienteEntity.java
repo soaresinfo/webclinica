@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.UuidGenerator;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.UUID;
@@ -19,6 +20,7 @@ import java.util.UUID;
 @Table(name = "paciente")
 public class PacienteEntity implements Serializable {
 
+	@Serial
 	private static final long serialVersionUID = 8806311750107426210L;
 
 	@Id

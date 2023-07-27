@@ -10,7 +10,7 @@ import org.mapstruct.factory.Mappers;
 @Mapper(uses = {ResponsavelMapper.class})
 public interface PacienteMapper {
 
-    static final PacienteMapper INSTANCE = Mappers.getMapper(PacienteMapper.class);
+    PacienteMapper INSTANCE = Mappers.getMapper(PacienteMapper.class);
 
     Paciente mapFrom(PacienteEntity source);
 

@@ -66,7 +66,7 @@ public class DataBaseConfiguration {
         LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
         em.setDataSource(dataSource());
 
-        em.setPackagesToScan(new String[] {"com.soares.webclinica.repository.model"});
+        em.setPackagesToScan("com.soares.webclinica.repository.model");
         em.setPersistenceUnitName("webclinica-pu");
 
         HibernateJpaVendorAdapter adapter = new HibernateJpaVendorAdapter();

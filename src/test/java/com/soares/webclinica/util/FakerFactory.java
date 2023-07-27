@@ -8,7 +8,7 @@ public class FakerFactory {
 
     private static final Faker INSTANCE = Faker.instance(new Locale("pt-BR"));
 
-    public static final Faker getInstance(){
+    public static Faker getInstance(){
         return INSTANCE;
     }
 

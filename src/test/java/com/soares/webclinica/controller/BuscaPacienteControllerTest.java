@@ -117,7 +117,7 @@ public class BuscaPacienteControllerTest {
 		verify(service, only()).buscaPacientePorNome(eq(nomePaciente));
 
 		assertThat(response).isNotNull();
-		assertThat(response.getStatusCode().is2xxSuccessful());
+		assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
 		assertThat(response.getBody())
 				.isNotNull()
 				.extracting(PacienteResponseModel::getNomePaciente,

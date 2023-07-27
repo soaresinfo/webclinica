@@ -25,7 +25,7 @@ public class BuscaPacienteService {
         Optional<PacienteEntity> optional = repository.findById(idPaciente);
         PacienteEntity entity = optional.orElseThrow(() -> {
             ValidationResult result = ValidationResult.fail(List.of(Error.create("id_paciente", "Paciente não encontrado", "422", idPaciente)));
-            throw new NotFoundException(result);
+            return new NotFoundException(result);
         });
         return PacienteMapper.INSTANCE.mapFrom(entity);
     }
@@ -34,7 +34,7 @@ public class BuscaPacienteService {
         Optional<PacienteEntity> optional = repository.findByCpf(cpf);
         PacienteEntity entity = optional.orElseThrow(() -> {
             ValidationResult result = ValidationResult.fail(List.of(Error.create(PacienteRequestModel.CPF, "Paciente não encontrado", "422", cpf)));
-            throw new NotFoundException(result);
+            return new NotFoundException(result);
         });
         return PacienteMapper.INSTANCE.mapFrom(entity);
     }
@@ -43,7 +43,7 @@ public class BuscaPacienteService {
         Optional<PacienteEntity> optional = repository.findByNomePaciente(nomePaciente);
         PacienteEntity entity = optional.orElseThrow(() -> {
             ValidationResult result = ValidationResult.fail(List.of(Error.create(PacienteRequestModel.NOME_PACIENTE, "Paciente não encontrado", "422", nomePaciente)));
-            throw new NotFoundException(result);
+            return new NotFoundException(result);
         });
         return PacienteMapper.INSTANCE.mapFrom(entity);
     }

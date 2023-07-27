@@ -1,15 +1,15 @@
 package com.soares.webclinica.repository.model;
 
-import java.io.Serializable;
-import java.util.UUID;
-
 import jakarta.persistence.*;
-import org.hibernate.annotations.UuidGenerator;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.UuidGenerator;
+
+import java.io.Serial;
+import java.io.Serializable;
+import java.util.UUID;
 
 @Data
 @Builder
@@ -19,6 +19,7 @@ import lombok.NoArgsConstructor;
 @Table(name = "convenio")
 public class ConvenioEntity implements Serializable {
 
+	@Serial
 	private static final long serialVersionUID = 93471137984800623L;
 
 	@Id

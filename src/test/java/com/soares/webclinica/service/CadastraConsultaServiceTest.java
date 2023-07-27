@@ -1,13 +1,11 @@
 package com.soares.webclinica.service;
 
-import com.github.javafaker.Faker;
 import com.soares.webclinica.factory.ConsultaFactory;
 import com.soares.webclinica.mapper.ConsultaMapper;
 import com.soares.webclinica.repository.ConsultaRepository;
 import com.soares.webclinica.repository.model.ConsultaEntity;
 import com.soares.webclinica.service.exception.UnprocessableEntityException;
 import com.soares.webclinica.service.model.Consulta;
-import com.soares.webclinica.util.FakerFactory;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -35,8 +33,6 @@ public class CadastraConsultaServiceTest {
     @Mock
     private NotificacaoService notificacaoService;
 
-    private static final Faker FAKER = FakerFactory.getInstance();
-
     @Test
     void testCadastraConsultaSucessoRetornaConsulta(){
         Consulta consulta = ConsultaFactory.getModel();
@@ -54,7 +50,7 @@ public class CadastraConsultaServiceTest {
 
         Consulta response = service.cadastraConsulta(consulta);
 
-        verify(repository, times(1)).findOne(any(Example.class));
+        verify(repository, times(1)).findOne(any(example.getClass()));
         verify(repository, times(1)).save(eq(entity));
         verify(notificacaoService, times(1)).enviaNotificacao(eq(consulta.paciente()));
 
@@ -78,7 +74,7 @@ public class CadastraConsultaServiceTest {
         assertThrows(UnprocessableEntityException.class,
                 () -> service.cadastraConsulta(consulta));
 
-        verify(repository, times(1)).findOne(any(Example.class));
+        verify(repository, times(1)).findOne(any(example.getClass()));
         verify(repository, never()).save(eq(entity));
         verify(notificacaoService, never()).enviaNotificacao(eq(consulta.paciente()));
     }
