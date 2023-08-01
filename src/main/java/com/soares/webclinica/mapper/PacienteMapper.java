@@ -5,6 +5,7 @@ import com.soares.webclinica.controller.model.PacienteResponseModel;
 import com.soares.webclinica.repository.model.PacienteEntity;
 import com.soares.webclinica.service.model.Paciente;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
 
 @Mapper(uses = {ResponsavelMapper.class})
@@ -18,5 +19,6 @@ public interface PacienteMapper {
 
     PacienteEntity fromModelToEntity(Paciente source);
 
+    @Mapping(target = "idPaciente", ignore = true)
     Paciente fromRequestToModel(PacienteRequestModel model);
 }

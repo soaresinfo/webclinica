@@ -5,6 +5,7 @@ import com.soares.webclinica.controller.model.MedicoResponseModel;
 import com.soares.webclinica.repository.model.MedicoEntity;
 import com.soares.webclinica.service.model.Medico;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
 
 import java.util.List;
@@ -18,6 +19,7 @@ public interface MedicoMapper {
 
     Medico fromEntityToModel(MedicoEntity source);
 
+    @Mapping(target = "idMedico", ignore = true)
     Medico fromRequestToModel(MedicoRequestModel source);
 
     MedicoResponseModel fromModelToResponse(Medico medico);

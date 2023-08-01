@@ -34,7 +34,7 @@ public class MedicoRequestValidator extends AbstractValidator<MedicoRequestModel
                 .must(not(stringEmptyOrNull(MedicoRequestModel::getCrm)))
                 .withAttempedValue(MedicoRequestModel::getCrm)
                 .withFieldName(CRM)
-                .withMessage(String.format(MSG_NULO_OU_VAZIO, TAMANHO_CRM))
+                .withMessage(String.format(MSG_NULO_OU_VAZIO, CRM))
 
                 .must(not(stringSizeGreaterThan(MedicoRequestModel::getCrm, TAMANHO_CRM)))
                 .withAttempedValue(MedicoRequestModel::getCrm)

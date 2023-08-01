@@ -25,7 +25,7 @@ public class TipoContatoEntity implements Serializable {
 
     @Id
     @Column(name = "codigo_tipo_contato", nullable = false, columnDefinition = "varchar(1)")
-    private String codigo_tipo_contato;
+    private String codigoTipoContato;
 
     @Column(name = "descricao", nullable = false, columnDefinition = "varchar(50)")
     private String descricao;

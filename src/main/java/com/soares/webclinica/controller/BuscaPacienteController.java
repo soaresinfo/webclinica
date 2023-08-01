@@ -7,6 +7,8 @@ import com.soares.webclinica.mapper.PacienteMapper;
 import com.soares.webclinica.service.BuscaPacienteService;
 import com.soares.webclinica.service.model.Paciente;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,9 +25,11 @@ public class BuscaPacienteController {
 
 	private final BuscaPacienteService service;
 
+	private final Logger LOGGER = LoggerFactory.getLogger(BuscaPacienteController.class);
+
 	@GetMapping(path = "/paciente", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<PacienteResponseModel> buscaPacientePorId(@RequestParam("id_paciente") String uuid) {
-
+		LOGGER.info("Busca Paciente");
 		uuidValidator.validate(uuid).isInvalidThrow(BadRequestException.class);
 		Paciente paciente = service.buscaPacientePorId(UUID.fromString(uuid));
 		return ResponseEntity.ok(PacienteMapper.INSTANCE.mapFrom(paciente));
@@ -33,7 +37,9 @@ public class BuscaPacienteController {
 
 	@GetMapping(path = "/paciente/cpf")
 	public ResponseEntity<PacienteResponseModel> buscaPacientePorCpf(@RequestParam("cpf") String cpf) {
+		LOGGER.info("Busca Paciente por CPF início.");
 		Paciente paciente = service.buscaPacientePorCpf(cpf);
+		LOGGER.info("Busca Paciente por CPF fim.");
 		return ResponseEntity.ok(PacienteMapper.INSTANCE.mapFrom(paciente));
 	}
 

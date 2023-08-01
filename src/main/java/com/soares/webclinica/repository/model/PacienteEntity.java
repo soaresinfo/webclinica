@@ -38,7 +38,7 @@ public class PacienteEntity implements Serializable {
 	@Column(name = "cpf", nullable = false, columnDefinition = "varchar(11)")
 	private String cpf;
 
-	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JoinColumn(name = "id_responsavel", referencedColumnName = "id_responsavel", columnDefinition = "binary(16)")
 	private ResponsavelEntity responsavel;
 
